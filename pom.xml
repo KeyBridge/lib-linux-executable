@@ -1,0 +1,65 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>keybridge.lib</groupId>
+  <artifactId>linux-executable</artifactId>
+  <version>1.4.0</version>
+  <packaging>jar</packaging>
+  <name>lib-linux-executable</name>
+  <description>Linux Executables
+
+    A collection of Java process wrappers around native Linux common
+    commands; such as WGET, ZIP, MySQL, MySQLImport, etc.
+
+    v1.1.0 - first release
+    v1.2.0 - use temporary files, then pivot when done
+    v1.3.0 - update mysqlImport and mysql executables, use properties, improve stability
+    v1.3.1 - return properties result from WGET and MySQL execution
+    v1.3.2 - return properties result from ZIP unarchive method
+    v1.3.3 - rename from lib-linux-utility t0 lib-linux-executable
+    v1.4.0 - refactor containing package, rename some classes
+
+  </description>
+  <organization>
+    <name>Key Bridge</name>
+    <url>http://keybridge.ch</url>
+  </organization>
+  <url>http://keybridge.ch</url>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <additionalparam>-Xdoclint:none</additionalparam>
+  </properties>
+
+
+
+  <distributionManagement>
+    <repository>
+      <id>${repository.name}</id>
+      <url>${repository.url}</url>
+    </repository>
+  </distributionManagement>
+
+</project>
