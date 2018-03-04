@@ -2,7 +2,7 @@
 
 **Linux Executables**
 
-A collection of Java process wrappers around native Linux common
+A collection of Java process wrappers for commonly used native Linux 
 commands; such as WGET, ZIP, MySQL, MySQLImport, etc.
 
 
