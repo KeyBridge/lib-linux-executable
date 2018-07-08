@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2018 Key Bridge.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,7 +20,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -144,7 +143,7 @@ public class WGET {
    * </ul>
    */
   private static final String[] EXIT_STATUS = new String[]{"OK",
-                                                           "Generic error code",
+                                                           "Generic error",
                                                            "Parse error",
                                                            "File I/O error",
                                                            "Network failure",
@@ -208,7 +207,7 @@ public class WGET {
     long startTime = System.currentTimeMillis();
     Properties status = new Properties();
 //    status.setProperty("StartTime", String.valueOf(startTime));
-    status.setProperty("Source", source.toString());
+    status.setProperty("source", source.toString());
     /**
      * Create the download directory if it does not already exist.
      */
@@ -225,7 +224,7 @@ public class WGET {
     /**
      * Handle if the destination file exists.
      */
-    Path destinationFile = Paths.get(downloadDir.toString(), getFileName(source));
+    Path destinationFile = downloadDir.resolve(getFileName(source));
 //    status.setProperty("Destination", destinationFile.toString());
     if (destinationFile.toFile().exists()) {
       if (overwrite) {
@@ -245,13 +244,13 @@ public class WGET {
      * Refuse any redirection.
      */
     String wget = new StringBuilder(WGET_BINARY)
-            .append(" --quiet ")
-            .append(" --max-redirect=").append(REDIRECTS) // allow two redirect
-            .append(" --tries=").append(TRIES)
-            //            .append(" --timeout=").append(TIMEOUT)
-            .append(" -O ").append(temporaryFile)
-            .append(" ").append(source)
-            .toString();
+      .append(" --quiet ")
+      .append(" --max-redirect=").append(REDIRECTS) // allow two redirect
+      .append(" --tries=").append(TRIES)
+      //            .append(" --timeout=").append(TIMEOUT)
+      .append(" -O ").append(temporaryFile)
+      .append(" ").append(source)
+      .toString();
     /**
      * Developer note: Build the command as a string, then run the command in a
      * UNIX Shell. This simplifies setting the various command parameters. Also
@@ -299,17 +298,18 @@ public class WGET {
      * either to the destination (if configured) or to the (temporary) download
      * directory, preserving the source file name from the URL.
      */
-    status.setProperty("Status", EXIT_STATUS[returnStatus]);
+    status.setProperty("status", EXIT_STATUS[returnStatus]);
     if (returnStatus == 0) {
       long size = temporaryFile.toFile().length(); // length in Bytes
       long duration = System.currentTimeMillis() - startTime; // time in Millis
       double speed = (size * 8) / (duration * 1000);  // speed in mbps
-      status.setProperty("Size", String.valueOf(size));
-      status.setProperty("Duration", String.valueOf(duration));
-      status.setProperty("Speed", String.valueOf(speed));
+      status.setProperty("size", String.valueOf(size));
+      status.setProperty("duration", String.valueOf(duration));
+      status.setProperty("speed", String.valueOf(speed));
       LOGGER.log(Level.INFO, "WGET Utility {0}", status.toString());
-      Files.move(temporaryFile, Paths.get(downloadDir.toString(), getFileName(source)));
+      Files.move(temporaryFile, destinationFile);
     } else {
+      temporaryFile.toFile().delete();
       throw new Exception("WGET Utility " + source + "  Error: " + EXIT_STATUS[returnStatus]);
     }
     return status;
@@ -368,6 +368,63 @@ public class WGET {
       } catch (Exception ex) {
         LOGGER.log(Level.SEVERE, "WGET Utility ASYNC failed to retrieve {0}: {1}", new Object[]{source, ex.getMessage()});
       }
+    }
+
+  }
+
+  /**
+   * EXIT STATUS
+   * <p>
+   * Wget may return one of several error codes if it encounters problems. With
+   * the exceptions of 0 and 1, the lower-numbered exit codes take precedence
+   * over higher-numbered ones, when multiple types of errors are encountered.
+   * <p>
+   * In versions of Wget prior to 1.12, Wget's exit status tended to be
+   * unhelpful and inconsistent. Recursive downloads would virtually always
+   * return 0 (success), regardless of any issues encountered, and non-
+   * recursive fetches only returned the status corresponding to the most
+   * recently-attempted download.
+   */
+  public static enum ExitStatus {
+    OK(0, "No problems occurred."),
+    ERROR(1, "Generic error code."),
+    PARSE_ERROR(2, "Command parse error."),
+    FILE_ERROR(3, "File I/O error."),
+    NETWORK_FAILURE(4, "Network failure."),
+    SSL_VERIFICATION(5, " SSL verification failure."),
+    AUTHENTICATION_FAILURE(6, "Username/password authentication failure."),
+    PROTOCOL_ERROR(7, "Protocol errors."),
+    SERVER_ERROR(8, "Server issued an error response.");
+
+    private final int code;
+    private final String description;
+
+    private ExitStatus(int exitStatus, String description) {
+      this.code = exitStatus;
+      this.description = description;
+    }
+
+    /**
+     * Get a return type from the exit status code.
+     *
+     * @param code the exit status code
+     * @return the return type.
+     */
+    public static ExitStatus fromCode(int code) {
+      for (ExitStatus type : ExitStatus.values()) {
+        if (type.getCode() == code) {
+          return type;
+        }
+      }
+      throw new IllegalArgumentException("Unrecognized exit status code: " + code);
+    }
+
+    public int getCode() {
+      return code;
+    }
+
+    public String getDescription() {
+      return description;
     }
 
   }

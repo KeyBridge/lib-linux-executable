@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2018 Key Bridge.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -268,8 +268,8 @@ public class MySQLImport {
        * directory. Test and skip if the file is empty.
        */
       LOGGER.log(Level.WARNING, "MySQL Import data file {0} is empty (zero length). Ignoring.", dataFile.getName());
-      status.setProperty("Duration", String.valueOf(System.currentTimeMillis() - startTime));
-      status.setProperty("Ignored", "TRUE");
+      status.setProperty("duration", String.valueOf(System.currentTimeMillis() - startTime));
+      status.setProperty("ignored", "TRUE");
       return status;
     }
     /**
@@ -380,8 +380,8 @@ public class MySQLImport {
       LOGGER.log(Level.WARNING, "MySQL Import table {0}.{1} does not exist. Ignoring file {2}.",
                  new Object[]{properties.getProperty("mysql.database"), baseName, dataFile.getName()}
       );
-      status.setProperty("Duration", String.valueOf(System.currentTimeMillis() - startTime));
-      status.setProperty("Ignored", "TRUE");
+      status.setProperty("duration", String.valueOf(System.currentTimeMillis() - startTime));
+      status.setProperty("ignored", "TRUE");
       return status;
     }
     /**
@@ -477,15 +477,15 @@ public class MySQLImport {
         /**
          * Parse the 'mysqlimport' output and set it to the status properties.
          */
-        status.setProperty("Table", line.split(":")[0]);
+        status.setProperty("table", line.split(":")[0]);
         Pattern pattern = Pattern.compile("\\s(\\w+): (\\d+)\\s?");
         Matcher matcher = pattern.matcher(line);
         int start = 0;
         while (matcher.find(start)) {
-          status.setProperty(matcher.group(1), matcher.group(2));
+          status.setProperty(matcher.group(1).toLowerCase(), matcher.group(2));
           start += matcher.group(0).length();
         }
-        status.setProperty("Time", String.valueOf(System.currentTimeMillis() - startTime));
+        status.setProperty("time", String.valueOf(System.currentTimeMillis() - startTime));
         /**
          * Log the action.
          */
@@ -505,7 +505,7 @@ public class MySQLImport {
     /**
      * The process exited OK. Set the MySQL process status metrics.
      */
-    status.setProperty("Duration", String.valueOf(System.currentTimeMillis() - startTime));
+    status.setProperty("duration", String.valueOf(System.currentTimeMillis() - startTime));
     return status;
   }
 

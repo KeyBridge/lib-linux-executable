@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2018 Key Bridge.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -154,13 +154,13 @@ public class MySQL {
      * Build then execute the MySQL import system command.
      */
     StringBuilder mysql = new StringBuilder(MYSQL)
-            .append(" --database=").append(properties.getProperty("mysql.database"))
-            .append(" --host=").append(properties.getProperty("mysql.host"))
-            .append(" --user=").append(properties.getProperty("mysql.user"))
-            .append(" --password=").append(properties.getProperty("mysql.pass"));
+      .append(" --database=").append(properties.getProperty("mysql.database"))
+      .append(" --host=").append(properties.getProperty("mysql.host"))
+      .append(" --user=").append(properties.getProperty("mysql.user"))
+      .append(" --password=").append(properties.getProperty("mysql.pass"));
     mysql.append(" --execute='")
-            .append(sqlStatement)
-            .append(sqlStatement.trim().endsWith(";") ? "'" : ";'"); // append a terminator
+      .append(sqlStatement)
+      .append(sqlStatement.trim().endsWith(";") ? "'" : ";'"); // append a terminator
     LOGGER.log(Level.FINE, "MySQL Executing system process {0} : ", mysql.toString());
     /**
      * Developer note: Build the command as a string, then run the command in a
@@ -253,13 +253,13 @@ public class MySQL {
      * Build then execute the MySQL import system command.
      */
     StringBuilder mysql = new StringBuilder(MYSQL)
-            .append(" --database=").append(properties.getProperty("mysql.database"))
-            .append(" --host=").append(properties.getProperty("mysql.host"))
-            .append(" --user=").append(properties.getProperty("mysql.user"))
-            .append(" --password=").append(properties.getProperty("mysql.pass"));
+      .append(" --database=").append(properties.getProperty("mysql.database"))
+      .append(" --host=").append(properties.getProperty("mysql.host"))
+      .append(" --user=").append(properties.getProperty("mysql.user"))
+      .append(" --password=").append(properties.getProperty("mysql.pass"));
     mysql.append(" --execute='")
-            .append(sqlStatement)
-            .append(sqlStatement.trim().endsWith(";") ? "'" : ";'"); // append a terminator
+      .append(sqlStatement)
+      .append(sqlStatement.trim().endsWith(";") ? "'" : ";'"); // append a terminator
     LOGGER.log(Level.FINE, "MySQL Executing system process {0} : ", mysql.toString());
     /**
      * Developer note: Build the command as a string, then run the command in a
@@ -313,8 +313,8 @@ public class MySQL {
     /**
      * The process exited OK. Set the MySQL process status metrics.
      */
-    status.setProperty("SQL", sqlStatement);
-    status.setProperty("Duration", String.valueOf(System.currentTimeMillis() - startTime));
+    status.setProperty("sql", sqlStatement);
+    status.setProperty("duration", String.valueOf(System.currentTimeMillis() - startTime));
     return status;
   }
 

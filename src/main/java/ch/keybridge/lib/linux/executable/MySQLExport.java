@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2018 Key Bridge.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -83,7 +83,7 @@ import java.util.logging.Logger;
  */
 public class MySQLExport {
 
-  private static final Logger logger = Logger.getLogger(MySQLExport.class.getName());
+  private static final Logger LOGGER = Logger.getLogger(MySQLExport.class.getName());
 
   /**
    * "mysql". The resource bundle properties file from which this utility tries
@@ -288,13 +288,13 @@ public class MySQLExport {
       .append(sqlStatement.trim().endsWith(";") ? "" : ";") // append a terminator
       .append("' > ")
       .append(outFile);
-    logger.log(Level.INFO, "Executing system process {0}.", mysqlexport.toString());
+    LOGGER.log(Level.INFO, "Executing system process {0}.", mysqlexport.toString());
     /**
      * Start the clock. Initialize the status.
      */
     long startTime = System.currentTimeMillis();
     this.status = new Properties();
-    status.setProperty("StartTime", String.valueOf(startTime));
+    status.setProperty("startTime", String.valueOf(startTime));
     /**
      * Developer note: Build the command as a string, then run the command in a
      * UNIX Shell. This simplifies setting the various command parameters. Also
@@ -342,8 +342,8 @@ public class MySQLExport {
     /**
      * Set the MySQL process status metrics.
      */
-    status.setProperty("FileSize", String.valueOf(outFile.toFile().length()));
-    status.setProperty("Duration", String.valueOf(System.currentTimeMillis() - startTime));
+    status.setProperty("fileSize", String.valueOf(outFile.toFile().length()));
+    status.setProperty("duration", String.valueOf(System.currentTimeMillis() - startTime));
     /**
      * Build a new process to count the number of rows exported.
      */
@@ -354,7 +354,7 @@ public class MySQLExport {
     try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
       String line;
       while ((line = reader.readLine()) != null) {
-        status.setProperty("Records", line.split(" ")[0]);
+        status.setProperty("records", line.split(" ")[0]);
       }
     }
     /**

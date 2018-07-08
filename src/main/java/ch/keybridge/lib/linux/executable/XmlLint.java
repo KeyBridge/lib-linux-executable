@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2018 Key Bridge.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -60,7 +60,7 @@ import java.util.logging.Logger;
  */
 public class XmlLint {
 
-  private static final Logger logger = Logger.getLogger(XmlLint.class.getName());
+  private static final Logger LOGGER = Logger.getLogger(XmlLint.class.getName());
 
   /**
    * xmllint return codes provide information that can be used when calling it
@@ -148,14 +148,14 @@ public class XmlLint {
      * current directory if given an unambiguous path to it.
      */
     StringBuilder xmllint = new StringBuilder(XMLLINT_BINARY)
-            .append(" --noout ") // Suppress output. By default, xmllint outputs the result tree.
-            .append(" --schema ").append(schema) // Use a W3C XML Schema file named SCHEMA for validation.
-            .append(" ").append(xml);
+      .append(" --noout ") // Suppress output. By default, xmllint outputs the result tree.
+      .append(" --schema ").append(schema) // Use a W3C XML Schema file named SCHEMA for validation.
+      .append(" ").append(xml);
     /**
      * Initialize the ProcessBuilder.
      */
     ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", xmllint.toString());
-    logger.log(Level.FINE, "xmllint: {0} ", xmllint.toString());
+    LOGGER.log(Level.FINE, "xmllint: {0} ", xmllint.toString());
     /**
      * Sets the source and destination for subprocess standard I/O to be the
      * same as those of the current Java process. This is a convenience method.
@@ -172,7 +172,7 @@ public class XmlLint {
      * are locally referenced (e.g. on the same file system) by the schema.
      */
     processBuilder.directory(schema.getParent().toFile());
-    logger.log(Level.FINE, "xmllint: working directory {0} ", schema.getParent());
+    LOGGER.log(Level.FINE, "xmllint: working directory {0} ", schema.getParent());
     /**
      * Tells whether this process builder merges standard error and standard
      * output.
@@ -209,7 +209,7 @@ public class XmlLint {
         /**
          * Log the validation error.
          */
-        logger.log(Level.FINE, "xmllint {0}", line);
+        LOGGER.log(Level.FINE, "xmllint {0}", line);
         /**
          * Only report xmllint error details. Remove the (potentially) transient
          * file name from the returned message set.
@@ -234,7 +234,7 @@ public class XmlLint {
      * return a (non-null) message set.
      */
     if (exitCode == 0) {
-      logger.log(Level.FINE, "xmllint {0} validates against {1} OK", new Object[]{xml.getFileName(), schema.getFileName()});
+      LOGGER.log(Level.FINE, "xmllint {0} validates against {1} OK", new Object[]{xml.getFileName(), schema.getFileName()});
     } else {
       messages.add("xmllint: " + EXIT[exitCode]);
     }

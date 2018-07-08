@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2018 Key Bridge.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -66,8 +66,8 @@ public class ZIP {
      */
     long startTime = System.currentTimeMillis();
     Properties status = new Properties();
-    status.setProperty("Source", zipfile.toFile().getName());
-    status.setProperty("Size", String.valueOf(zipfile.toFile().length()));
+    status.setProperty("source", zipfile.toFile().getName());
+    status.setProperty("size", String.valueOf(zipfile.toFile().length()));
     int fileCount = 0; // number of archived files in this package.
     /**
      * If no UnZIP directory is declared then create a temporary extraction
@@ -126,8 +126,8 @@ public class ZIP {
     /**
      * Record the duration. Then done.
      */
-    status.setProperty("Files", String.valueOf(fileCount));
-    status.setProperty("Duration", String.valueOf(System.currentTimeMillis() - startTime));
+    status.setProperty("files", String.valueOf(fileCount));
+    status.setProperty("duration", String.valueOf(System.currentTimeMillis() - startTime));
     return status;
   }
 

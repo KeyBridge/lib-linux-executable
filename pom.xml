@@ -4,7 +4,7 @@
 
   <groupId>keybridge.lib</groupId>
   <artifactId>linux-executable</artifactId>
-  <version>1.4.0</version>
+  <version>1.4.1</version>
   <packaging>jar</packaging>
   <name>lib-linux-executable</name>
   <description>Linux Executables
@@ -19,6 +19,7 @@
     v1.3.2 - return properties result from ZIP unarchive method
     v1.3.3 - rename from lib-linux-utility t0 lib-linux-executable
     v1.4.0 - refactor containing package, rename some classes
+    v1.4.1 - change status keys to lower case
 
   </description>
   <organization>
