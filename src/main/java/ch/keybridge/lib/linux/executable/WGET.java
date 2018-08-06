@@ -213,6 +213,10 @@ public class WGET {
      */
     Path downloadDir;
     if (destination == null) {
+      /**
+       * Conditionally create a temporary directory if the destination is not
+       * set.
+       */
       downloadDir = Files.createTempDirectory("wget-");
     } else {
       downloadDir = destination;
@@ -222,7 +226,7 @@ public class WGET {
       }
     }
     /**
-     * Handle if the destination file exists.
+     * Handle if the destination file exists. Remove existing.
      */
     Path destinationFile = downloadDir.resolve(getFileName(source));
 //    status.setProperty("Destination", destinationFile.toString());
@@ -247,7 +251,7 @@ public class WGET {
       .append(" --quiet ")
       .append(" --max-redirect=").append(REDIRECTS) // allow two redirect
       .append(" --tries=").append(TRIES)
-      //            .append(" --timeout=").append(TIMEOUT)
+      .append(" --timeout=").append(TIMEOUT)
       .append(" -O ").append(temporaryFile)
       .append(" ").append(source)
       .toString();
@@ -258,7 +262,11 @@ public class WGET {
      * in the current directory if given an unambiguous path to it.
      */
     ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", wget);
-    processBuilder.directory(downloadDir.toFile());
+    /**
+     * Developer note: do NOT download into the destination directory. This
+     * breaks the application when using a FileWatcher.
+     */
+//    processBuilder.directory(downloadDir.toFile()); // NO !!!!
     /**
      * Sets this process builder standard output destination. If the destination
      * is Redirect.PIPE (the initial value), then the standard output of a

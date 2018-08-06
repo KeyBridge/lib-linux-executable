@@ -4,7 +4,7 @@
 
   <groupId>keybridge.lib</groupId>
   <artifactId>linux-executable</artifactId>
-  <version>1.4.1</version>
+  <version>1.4.2</version>
   <packaging>jar</packaging>
   <name>lib-linux-executable</name>
   <description>Linux Executables
@@ -20,6 +20,7 @@
     v1.3.3 - rename from lib-linux-utility t0 lib-linux-executable
     v1.4.0 - refactor containing package, rename some classes
     v1.4.1 - change status keys to lower case
+    v1.4.2 - fix wget, do not download into the destination directory
 
   </description>
   <organization>
