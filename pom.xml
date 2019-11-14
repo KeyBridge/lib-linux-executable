@@ -23,25 +23,19 @@
     v1.4.2 - fix wget, do not download into the destination directory
 
   </description>
+
   <organization>
     <name>Key Bridge</name>
     <url>http://keybridge.ch</url>
   </organization>
-  <url>http://keybridge.ch</url>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <additionalparam>-Xdoclint:none</additionalparam>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -50,12 +44,6 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <additionalparam>-Xdoclint:none</additionalparam>
-  </properties>
-
-
 
   <distributionManagement>
     <repository>
